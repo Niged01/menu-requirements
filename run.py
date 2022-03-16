@@ -88,10 +88,18 @@ def update_passenger_worksheet(data):
     passenger_worksheet.append_row(data)
     print("Passenger numbers updated sucessfully.\n")
 
-
+def economy_crew_meals():
+    """
+    collects flight number, adds economy passengers and crew together 
+    adds 20 divides total by two.
+    """
+    flight_number = passenger_data[0]
+    meals = round(passenger_data[2] + passenger_data[3] + 20 / 2)
+    print(flight_number, meals)
 
 
 
 data = get_passenger_numbers_data()
 passenger_data = [int(num) for num in data]
 update_passenger_worksheet(passenger_data)
+economy_crew_meals()
