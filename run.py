@@ -79,6 +79,19 @@ def validated_passenger_data(passenger_numbers):
     return True
 
 
-get_passenger_numbers_data()
+def update_passenger_worksheet(data):
+    """
+    Updates passenger numbers in work sheet, adding a new row
+    """
+    print("Updating Passenger numbers...\n")
+    passenger_worksheet = SHEET.worksheet("passengers")
+    passenger_worksheet.append_row(data)
+    print("Passenger numbers updated sucessfully.\n")
 
 
+
+
+
+data = get_passenger_numbers_data()
+passenger_data = [int(num) for num in data]
+update_passenger_worksheet(passenger_data)
