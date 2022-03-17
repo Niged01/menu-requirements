@@ -12,6 +12,40 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('menu_requirements')
 
+
+def input_or_check_meals():
+    """
+    Allows the user to choose if they want to input new flight data for meals or print flight meal data for kitchen
+    """
+    print("Welcome to Legion Internationals flight meal ordering service.\n")
+    while True:
+        choice = input("Would you like to input flight meals or check flight meals?\n").lower()
+        if choice == "flight meals":
+            if confirm_choice(f"You selected {choice}. "):
+                get_passenger_numbers_data()
+                break
+        elif choice == "check flight meals":
+            if confirm_choice(f"You selected {choice}. "):
+                show_required_meals()
+                break
+        else:
+            print("Incorrect selection. Please try again")
+
+
+def confirm_choice(choice):
+    """
+    confirms users choice
+    """
+    while True:
+        confirm = input(f"{choice}Is that correct? y/n\n").lower()
+        if confirm == "y":
+            return True
+        elif confirm == "n":
+            return False
+        else:
+            print("Incorrect selection. Please try again")
+
+
 def get_passenger_numbers_data():
     """
     Get passenger numbers from User
@@ -51,7 +85,6 @@ def validated_passenger_data(passenger_numbers):
                 f"A number between 0-999 required, you provided {passenger_numbers[0]}"
                 )
             
-
         if passenger_numbers[1] in range(0, 61): 
             pass
         else: 
@@ -59,7 +92,6 @@ def validated_passenger_data(passenger_numbers):
                 f"A number between 0-60 required, you provided {passenger_numbers[1]}"
                 )
         
-
         if passenger_numbers[2] in range(0, 251): 
             pass
         else: 
@@ -67,7 +99,6 @@ def validated_passenger_data(passenger_numbers):
                 f"A number between 0-250 required, you provided {passenger_numbers[2]}"
                 )
         
-
         if passenger_numbers[3] in range(0, 14): 
             pass
         else: 
@@ -131,6 +162,37 @@ def update_bisclass_worksheet(passenger_data, economy_meals):
     economycrew_worksheet.append_row(data)
     print("Passenger meals updated sucessfully.\n")
 
+#def special_request():
+
+def show_required_meals():
+    """
+    retrieves meal data for specific flight using flight number for kitchen to prepare.
+    """
+    while True:
+        flight_num = input("Flight number:")
+
+        cell_list = worksheet.findall("flight_num")
+
+        print(cell_list)
+
+
+
+def loop_around():
+    """
+    User selects to continue program or exit
+    """
+    while True:
+        choice = input("Do you want to update another input? y/n \n").lower()
+        if choice == "y":
+            input_or_check_meals()
+        elif choice == "n":
+            print("Thank you for using Legion Internationals flight meal ordering service.")
+            break
+        else:
+            print("Incorrect selection. Please try again")
+
+
+input_or_check_meals()
 data = get_passenger_numbers_data()
 passenger_data = [int(num) for num in data]
 update_passenger_worksheet(passenger_data)
@@ -138,6 +200,6 @@ economy_meals = economy_crew_meals(passenger_data)
 update_economycrew_worksheet(passenger_data, economy_meals)
 bisclass_meals = bis_class_meals(passenger_data)
 update_bisclass_worksheet(passenger_data, bisclass_meals)
-
+loop_around()
 
 
