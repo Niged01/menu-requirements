@@ -119,10 +119,7 @@ def update_passenger_worksheet(data):
     """
     print("Updating Passenger numbers...\n")
     passenger_worksheet = SHEET.worksheet("passengers")
-    # Prefix flight number with `LI`.
     data[0] = f"LI{data[0]}"
-    # flight_number, biz, economy, crew = data
-    # flight_number = f"LI{flight_number}"
     passenger_worksheet.append_row(data)
     print("Passenger numbers updated sucessfully.\n")
 
@@ -147,22 +144,55 @@ def update_economycrew_worksheet(passenger_data, economy_meals):
 
 def bis_class_meals(passenger_data):
     """
-    collects flight number, adds economy passengers and crew together 
-    adds 20 divides total by two. 
+    Divides bis class numbers by 6 dishes offered to bis class passengers
     """
     return round(passenger_data[1] / 6)
 
-def update_bisclass_worksheet(passenger_data, economy_meals):
+def update_bisclass_worksheet(passenger_data, bisclass_meals):
     """
-    Updates economycrew meal numbers in work sheet adding new row
+    Updates Business class meal numbers in work sheet adding new row
     """
     print("Updating meal numbers...\n")
     data = [passenger_data[0], bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals]
-    economycrew_worksheet = SHEET.worksheet("bis")
-    economycrew_worksheet.append_row(data)
+    bisclass_meals_worksheet = SHEET.worksheet("bis")
+    bisclass_meals_worksheet.append_row(data)
     print("Passenger meals updated sucessfully.\n")
+    
 
-#def special_request():
+def special_request(passenger_data):
+    """
+    Allows user to input special requests for bis class passengers
+    """
+
+    print("Select seat number between 1 - 60.")
+    seat = input("Seat Number:")
+    print("Enter special request")
+    special = input("Special Request:")
+
+def special_request_loop():
+    """
+    Allows user to continue to put in special requests for multiple bis class customers.
+    """
+    while True:
+        choice = input("Update another special request? y/n \n").lower()
+        if choice == "y":
+            special_request()
+        elif choice == "n":
+            print("Special Requests have been added to meal order.")
+            break
+        else:
+            print("Incorrect selection. Please try again")
+
+
+def update_special_request(passenger_data, special_request):
+    """
+    updates
+    """
+    print("Updating special request's...\n")
+    data = [passenger_data[0], seat, special]
+    special_request_worksheet = SHEET.worksheet("special")
+    special_request_worksheet.append_row(data)
+    print("Special request's updated sucessfully.\n")
 
 def show_required_meals():
     """
@@ -171,7 +201,7 @@ def show_required_meals():
     while True:
         flight_num = input("Flight number:")
 
-        cell_list = worksheet.findall("flight_num")
+        cell_list = worksheet.findall(flight_num)
 
         print(cell_list)
 
@@ -200,6 +230,9 @@ economy_meals = economy_crew_meals(passenger_data)
 update_economycrew_worksheet(passenger_data, economy_meals)
 bisclass_meals = bis_class_meals(passenger_data)
 update_bisclass_worksheet(passenger_data, bisclass_meals)
+special_request = special_request(passenger_data)
+special_request_loop()
+update_special_request(passenger_data, special_request)
 loop_around()
 
 
