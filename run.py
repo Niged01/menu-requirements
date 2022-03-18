@@ -159,37 +159,40 @@ def update_bisclass_worksheet(passenger_data, bisclass_meals):
     print("Passenger meals updated sucessfully.\n")
     
 
+
+
 def special_request(passenger_data):
     """
     Allows user to input special requests for bis class passengers
     """
+    print("Any special requests required?")
+    yes_no = input("y/n:")
+        yes_no = 
+    print("Enter Special requests as required below.\n")
+    while True:
+        print("Select seat number between 1 - 60.")
+        seat = input("Seat Number:")
+        try:
+            seat = int(seat)
+            if seat in range(0, 61):
+                break
+        except ValueError:
+            pass
 
-    print("Select seat number between 1 - 60.")
-    seat = input("Seat Number:")
+        print(f"A number between 0-60 required, you provided {seat}")
+
     print("Enter special request")
     special = input("Special Request:")
 
-def special_request_loop():
-    """
-    Allows user to continue to put in special requests for multiple bis class customers.
-    """
-    while True:
-        choice = input("Update another special request? y/n \n").lower()
-        if choice == "y":
-            special_request()
-        elif choice == "n":
-            print("Special Requests have been added to meal order.")
-            break
-        else:
-            print("Incorrect selection. Please try again")
+    update_special_request(passenger_data, seat, special)
 
 
-def update_special_request(passenger_data, special_request):
+def update_special_request(passenger_data, seat, special_request):
     """
     updates
     """
     print("Updating special request's...\n")
-    data = [passenger_data[0], seat, special]
+    data = [passenger_data[0], seat, special_request]
     special_request_worksheet = SHEET.worksheet("special")
     special_request_worksheet.append_row(data)
     print("Special request's updated sucessfully.\n")
@@ -198,41 +201,72 @@ def show_required_meals():
     """
     retrieves meal data for specific flight using flight number for kitchen to prepare.
     """
-    while True:
-        flight_num = input("Flight number:")
+    flight_num = input("Flight number:")
 
-        cell_list = worksheet.findall(flight_num)
+    passengers_worksheet = SHEET.worksheet("passengers")
+    # biz_worksheet = SHEET.worksheet("biz")
+    # economy_crew_worksheet = SHEET.worksheet("economy_crew")
+    # special_requests_worksheet = SHEET.worksheet("special_requests")
 
-        print(cell_list)
+    cells = passengers_worksheet.findall(flight_num)
+    # biz_cells = biz_worksheet.findall(flight_num)
+    # cells = passengers_worksheet.findall(flight_num)
+    # cells = passengers_worksheet.findall(flight_num)
+
+    for cell in cells:
+        print(passengers_worksheet.row_values(cell.row))
 
 
+def get_and_store_flight_details():
+    data = get_passenger_numbers_data()
+    passenger_data = [int(num) for num in data]
+    update_passenger_worksheet(passenger_data)
+    economy_meals = economy_crew_meals(passenger_data)
+    update_economycrew_worksheet(passenger_data, economy_meals)
+    bisclass_meals = bis_class_meals(passenger_data)
+    update_bisclass_worksheet(passenger_data, bisclass_meals)
+    special_request(passenger_data)
 
-def loop_around():
-    """
-    User selects to continue program or exit
-    """
-    while True:
-        choice = input("Do you want to update another input? y/n \n").lower()
-        if choice == "y":
-            input_or_check_meals()
-        elif choice == "n":
-            print("Thank you for using Legion Internationals flight meal ordering service.")
-            break
+
+MENU_OPTIONS = """
+Please select one of the below options:
+    1) Enter flight data
+    2) Check meals data
+    3) Exit
+>>>
+"""
+
+def main():
+    keep_running = True
+    while keep_running:
+        choice = input(MENU_OPTIONS)
+
+        if choice == "1":
+            get_and_store_flight_details()
+        elif choice == "2":
+            show_required_meals()
+        elif choice == "3":
+            keep_running = False
         else:
-            print("Incorrect selection. Please try again")
+            print("Incorrect option.. Please try again...")
 
 
-input_or_check_meals()
-data = get_passenger_numbers_data()
-passenger_data = [int(num) for num in data]
-update_passenger_worksheet(passenger_data)
-economy_meals = economy_crew_meals(passenger_data)
-update_economycrew_worksheet(passenger_data, economy_meals)
-bisclass_meals = bis_class_meals(passenger_data)
-update_bisclass_worksheet(passenger_data, bisclass_meals)
-special_request = special_request(passenger_data)
-special_request_loop()
-update_special_request(passenger_data, special_request)
-loop_around()
 
 
+    # input_or_check_meals()
+    # # data = get_passenger_numbers_data()
+    # passenger_data = [int(num) for num in data]
+    # update_passenger_worksheet(passenger_data)
+    # economy_meals = economy_crew_meals(passenger_data)
+    # update_economycrew_worksheet(passenger_data, economy_meals)
+    # bisclass_meals = bis_class_meals(passenger_data)
+    # update_bisclass_worksheet(passenger_data, bisclass_meals)
+    # special_request_required_loop()
+    # special_request(passenger_data)
+    # special_request_loop()
+    # update_special_request(passenger_data, special_request)
+    # loop_around()
+
+
+if __name__ == "__main__":
+    main()
