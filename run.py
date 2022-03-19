@@ -13,9 +13,11 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('menu_requirements')
 
+
 def input_or_check_meals():
     """
-    Allows the user to choose if they want to input new flight data for meals or print flight meal data for kitchen
+    Allows the user to choose if they want to input new flight data for meals
+    or print flight meal data for kitchen
     """
     print("Welcome to Legion Internationals flight meal ordering service.\n")
     while True:
@@ -56,7 +58,6 @@ def get_passenger_numbers_data():
         print("Example: 300,50,140,10\n")
 
         input_str = input("Enter your data here:\n")
-    
         passenger_numbers = input_str.split(",")
 
         if validated_passenger_data(passenger_numbers):
@@ -80,35 +81,31 @@ def validated_passenger_data(passenger_numbers):
 
         if passenger_numbers[0] in range(0, 1000):
             pass
-        else: 
+        else:
             raise ValueError(
                 f"A number between 0-999 required, you provided {passenger_numbers[0]}"
                 )
-            
-        if passenger_numbers[1] in range(0, 61): 
+        if passenger_numbers[1] in range(0, 61):
             pass
-        else: 
+        else:
             raise ValueError(
                 f"A number between 0-60 required, you provided {passenger_numbers[1]}"
                 )
-        
-        if passenger_numbers[2] in range(0, 251): 
+        if passenger_numbers[2] in range(0, 251):
             pass
-        else: 
+        else:
             raise ValueError(
                 f"A number between 0-250 required, you provided {passenger_numbers[2]}"
                 )
-        
-        if passenger_numbers[3] in range(0, 14): 
+        if passenger_numbers[3] in range(0, 14):
             pass
-        else: 
+        else:
             raise ValueError(
                 f"A number between 0-13 required, you provided {passenger_numbers[3]}"
                 )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
         return False
-     
 
     return True
 
@@ -125,12 +122,11 @@ def update_passenger_worksheet(data):
 
 def economy_crew_meals(passenger_data):
     """
-    collects flight number, adds economy passengers and crew together 
-    adds 20 divides total by two. 
+    collects flight number, adds economy passengers and crew together
+    adds 20 divides total by two.
     """
     return round((passenger_data[2] + passenger_data[3] + 20) / 2)
 
-    
 
 def update_economycrew_worksheet(passenger_data, economy_meals):
     """
@@ -156,7 +152,7 @@ def update_bisclass_worksheet(passenger_data, bisclass_meals):
     data = [passenger_data[0], bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals]
     bisclass_meals_worksheet = SHEET.worksheet("bis")
     bisclass_meals_worksheet.append_row(data)
-    print("Passenger meals updated sucessfully.\n")   
+    print("Passenger meals updated sucessfully.\n")
 
 
 
@@ -172,7 +168,7 @@ def special_request(passenger_data):
         elif answer == "n":
             return
         else:
-            print("Please enter y or n.") 
+            print("Please enter y or n.")
         print("Enter Special requests as required below.\n")
         while True:
             print("Select seat number between 1 - 60.")
