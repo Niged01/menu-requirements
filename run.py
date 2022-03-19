@@ -55,7 +55,7 @@ def get_passenger_numbers_data():
         print("Enter flight number bis class passenger and crew numbers, seperated by commas.")
         print("Example: 300,50,140,10\n")
 
-        input_str = input("Enter your data here: ")
+        input_str = input("Enter your data here:\n")
     
         passenger_numbers = input_str.split(",")
 
@@ -166,7 +166,7 @@ def special_request(passenger_data):
     """
     while True:
         print("Any special requests required?")
-        answer = input("y/n:")
+        answer = input("y/n:\n")
         if answer == "y":
             pass
         elif answer == "n":
@@ -176,7 +176,7 @@ def special_request(passenger_data):
         print("Enter Special requests as required below.\n")
         while True:
             print("Select seat number between 1 - 60.")
-            seat = input("Seat Number:")
+            seat = input("Seat Number:\n")
             try:
                 seat = int(seat)
                 if seat in range(0, 61):
@@ -187,7 +187,7 @@ def special_request(passenger_data):
             print(f"A number between 0-60 required, you provided {seat}")
 
         print("Enter special request")
-        special = input("Special Request:")
+        special = input("Special Request:\n")
 
         update_special_request(passenger_data, seat, special)
 
@@ -208,7 +208,7 @@ def show_required_meals():
     """
     print("Please enter flight number.")
     print("Example: LI300")
-    flight_num = input("Flight number:")
+    flight_num = input("Flight number:\n")
 
     passengers_worksheet = SHEET.worksheet("passengers")
     bis_worksheet = SHEET.worksheet("bis")
