@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from tabulate import tabulate
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -11,7 +12,6 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('menu_requirements')
-
 
 def input_or_check_meals():
     """
@@ -156,8 +156,7 @@ def update_bisclass_worksheet(passenger_data, bisclass_meals):
     data = [passenger_data[0], bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals, bisclass_meals]
     bisclass_meals_worksheet = SHEET.worksheet("bis")
     bisclass_meals_worksheet.append_row(data)
-    print("Passenger meals updated sucessfully.\n")
-    
+    print("Passenger meals updated sucessfully.\n")   
 
 
 
@@ -165,40 +164,32 @@ def special_request(passenger_data):
     """
     Allows user to input special requests for bis class passengers
     """
-    print("Any special requests required?")
-    answer = input("y/n:")
-    if answer == "y": 
-        pass
-    elif answer == "n": 
-        return
-    else: 
-        print("Please enter y or n.") 
-    print("Enter Special requests as required below.\n")
     while True:
-        print("Select seat number between 1 - 60.")
-        seat = input("Seat Number:")
-        try:
-            seat = int(seat)
-            if seat in range(0, 61):
-                break
-        except ValueError:
+        print("Any special requests required?")
+        answer = input("y/n:")
+        if answer == "y":
             pass
+        elif answer == "n":
+            return
+        else:
+            print("Please enter y or n.") 
+        print("Enter Special requests as required below.\n")
+        while True:
+            print("Select seat number between 1 - 60.")
+            seat = input("Seat Number:")
+            try:
+                seat = int(seat)
+                if seat in range(0, 61):
+                    break
+            except ValueError:
+                pass
 
-        print(f"A number between 0-60 required, you provided {seat}")
+            print(f"A number between 0-60 required, you provided {seat}")
 
-    print("Enter special request")
-    special = input("Special Request:")
-
-    print("Any further special requests required?")
-    yes_no = input("y/n:")
-    if yes_no == "y": 
-        seat
-    elif yes_no == "n": 
-        return
-    else: 
-        print("Please enter y or n.") 
-   
-    update_special_request(passenger_data, seat, special)
+        print("Enter special request")
+        special = input("Special Request:")
+         
+        update_special_request(passenger_data, seat, special)
 
 
 def update_special_request(passenger_data, seat, special_request):
@@ -227,8 +218,13 @@ def show_required_meals():
     economycrew_cells = economycrew_worksheet.findall(flight_num)
     special_cells = special_worksheet.findall(flight_num)
 
+    h1 = ["Flight Number", "Bis", "Economy", "Crew"]
+    h2 = ["Flight Number", "Chicken", "Beef"]
+    h3 = ["Flight Number", "Chicken", "Beef", "Lamb", "Pork", "fish", "Vegetarian"]
+    h4 = ["Flight Number", "Seat", "Special" "Request"]
+
     for cell in cells:
-        print(passengers_worksheet.row_values(cell.row))
+        print(tabulate(passengers_worksheet.row_values(cell.row), headers=h1, tablefmt="github"))
         print(bis_worksheet.row_values(cell.row))
         print(economycrew_worksheet.row_values(cell.row))
         print(special_worksheet.row_values(cell.row))
