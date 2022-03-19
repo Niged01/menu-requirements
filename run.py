@@ -188,7 +188,7 @@ def special_request(passenger_data):
 
         print("Enter special request")
         special = input("Special Request:")
-         
+
         update_special_request(passenger_data, seat, special)
 
 
@@ -206,6 +206,8 @@ def show_required_meals():
     """
     retrieves meal data for specific flight using flight number for kitchen to prepare.
     """
+    print("Please enter flight number.")
+    print("Example: LI300")
     flight_num = input("Flight number:")
 
     passengers_worksheet = SHEET.worksheet("passengers")
@@ -221,13 +223,12 @@ def show_required_meals():
     h1 = ["Flight Number", "Bis", "Economy", "Crew"]
     h2 = ["Flight Number", "Chicken", "Beef"]
     h3 = ["Flight Number", "Chicken", "Beef", "Lamb", "Pork", "fish", "Vegetarian"]
-    h4 = ["Flight Number", "Seat", "Special" "Request"]
+    h4 = ["Flight Number", "Seat", "Special Request"]
 
-    for cell in cells:
-        print(tabulate(passengers_worksheet.row_values(cell.row), headers=h1, tablefmt="github"))
-        print(bis_worksheet.row_values(cell.row))
-        print(economycrew_worksheet.row_values(cell.row))
-        print(special_worksheet.row_values(cell.row))
+    print(tabulate([passengers_worksheet.row_values(cell.row) for cell in cells], headers=h1))
+    print(tabulate([bis_worksheet.row_values(cell.row) for cell in bis_cells], headers=h3))
+    print(tabulate([economycrew_worksheet.row_values(cell.row) for cell in economycrew_cells], headers=h2))
+    print(tabulate([special_worksheet.row_values(cell.row) for cell in special_cells], headers=h4))
 
 
 def get_and_store_flight_details():
@@ -242,10 +243,12 @@ def get_and_store_flight_details():
 
 
 MENU_OPTIONS = """
-Please select one of the below options:
-    1) Enter flight data
-    2) Check meals data
-    3) Exit
+Welcome to Legion International's meal ordering terminal
+
+Please choose from one of the following options:
+    1) Enter meal orders
+    2) Print meal orders
+    3) Exit terminal
 >>>
 """
 
