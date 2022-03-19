@@ -166,8 +166,13 @@ def special_request(passenger_data):
     Allows user to input special requests for bis class passengers
     """
     print("Any special requests required?")
-    yes_no = input("y/n:")
-        yes_no = 
+    answer = input("y/n:")
+    if answer == "y": 
+        pass
+    elif answer == "n": 
+        return
+    else: 
+        print("Please enter y or n.") 
     print("Enter Special requests as required below.\n")
     while True:
         print("Select seat number between 1 - 60.")
@@ -184,6 +189,15 @@ def special_request(passenger_data):
     print("Enter special request")
     special = input("Special Request:")
 
+    print("Any further special requests required?")
+    yes_no = input("y/n:")
+    if yes_no == "y": 
+        seat
+    elif yes_no == "n": 
+        return
+    else: 
+        print("Please enter y or n.") 
+   
     update_special_request(passenger_data, seat, special)
 
 
@@ -204,17 +218,20 @@ def show_required_meals():
     flight_num = input("Flight number:")
 
     passengers_worksheet = SHEET.worksheet("passengers")
-    # biz_worksheet = SHEET.worksheet("biz")
-    # economy_crew_worksheet = SHEET.worksheet("economy_crew")
-    # special_requests_worksheet = SHEET.worksheet("special_requests")
+    bis_worksheet = SHEET.worksheet("bis")
+    economycrew_worksheet = SHEET.worksheet("economycrew")
+    special_worksheet = SHEET.worksheet("special")
 
     cells = passengers_worksheet.findall(flight_num)
-    # biz_cells = biz_worksheet.findall(flight_num)
-    # cells = passengers_worksheet.findall(flight_num)
-    # cells = passengers_worksheet.findall(flight_num)
+    bis_cells = bis_worksheet.findall(flight_num)
+    economycrew_cells = economycrew_worksheet.findall(flight_num)
+    special_cells = special_worksheet.findall(flight_num)
 
     for cell in cells:
         print(passengers_worksheet.row_values(cell.row))
+        print(bis_worksheet.row_values(cell.row))
+        print(economycrew_worksheet.row_values(cell.row))
+        print(special_worksheet.row_values(cell.row))
 
 
 def get_and_store_flight_details():
@@ -249,23 +266,6 @@ def main():
             keep_running = False
         else:
             print("Incorrect option.. Please try again...")
-
-
-
-
-    # input_or_check_meals()
-    # # data = get_passenger_numbers_data()
-    # passenger_data = [int(num) for num in data]
-    # update_passenger_worksheet(passenger_data)
-    # economy_meals = economy_crew_meals(passenger_data)
-    # update_economycrew_worksheet(passenger_data, economy_meals)
-    # bisclass_meals = bis_class_meals(passenger_data)
-    # update_bisclass_worksheet(passenger_data, bisclass_meals)
-    # special_request_required_loop()
-    # special_request(passenger_data)
-    # special_request_loop()
-    # update_special_request(passenger_data, special_request)
-    # loop_around()
 
 
 if __name__ == "__main__":
