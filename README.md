@@ -1,10 +1,10 @@
 # Meal ordering terminal for Legion international’s flights
 ------
-This project is my third milestone project for Code Institute diploma in Full Stack Software development. You can visit the deployed site here.
+This project is my third milestone project for Code Institute diploma in Full Stack Software development. You can visit the deployed site [here](https://legion-meals.herokuapp.com/).
 
 The app sends required amount of meals for each flight and special requests for business class passengers to the kitchen and allows the kitchen to pull the data for each flight using googlesheet to store and update order information.
 
-Insert screen shot.
+![Application home page](menu.png)
 
 ## UX
 -------
@@ -29,7 +29,7 @@ As a user, I want:
 Flow chart
 Before beginning this project, I wanted to lay out what I wanted the application to do so I created a flow chart using lucid chart to get the logic in place so the steps to follow could get collated to ensure the application worked correctly. 
 
-Insert pic of flow chart
+![flow chart](flowchart.png)
 
 
 ## Features
@@ -83,8 +83,28 @@ The application eventually would pull flight numbers and passenger details direc
 - Google docs
 - Google sheets
 
-Deployment 
-Insert steps here
+### Deployment 
+-----
+**This application has been deployed using Heroku**
+1. Create or sign into a Heroku account
+2. Click the Create new app button
+3. Choose a name for the app (This needs to be unique)
+4. Choose region, then click create app.
+5. Click on settings
+6. Click reveal config vars button
+    - In this project we needed to add a key of PORT and VALUE of 8000
+7. Click add.
+8. Click add buildpack
+   - Add python, save changes
+   - Add node.js, save changes
+   - make sure python is on top.
+9. Go to the deploy tab
+10. Choose your deployment method (ours is github)
+11. Search for your repository name, then connect
+12. You can choose to have automatic deploy on
+   - You then click on the manual deploy and wait until you see a finished message saying view app
+   - Click the view app button
+   - Click the run program button at the top.
 
 ## Credits
 --------
