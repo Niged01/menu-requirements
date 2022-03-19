@@ -68,7 +68,44 @@ Automatic data pulling
 The application eventually would pull flight numbers and passenger details direct from customer when booked and on day of flight kitchen emailed flight meal order to speed the process up.
 
 ## Testing
+-----------
+- I used PEP8 to tes my code, I do note there are a lot of errors comming back stating the lines of code are to long however I ran out of time to ammend these and this can be done at a later date, I also want to make mention of the no new line error there was nothing new to put in here.
 
+![test 1](test1.png)
+![test 2](test2.png)
+
+### Welcome screen
+When the program starts the user is at the welcome screen and is told what the app is for and then user picks from three options to insert data, check data, or exit program.
+     - Acts as expected produces error when incorrect data entered
+### Update flight meals
+User is directed to enter the flight number, number of passengers and crew for the flight
+     - Acts as expected produces error when incorrect data entered
+### Class selections
+Once numbers of passengers and crew have been input the data automatically allocates to the corresponding sheet.
+     - Acts as expected 
+Economy and Crew are added together with a further 20 meals added to assure for any incidents that may occur. Then that total number is divided into two equal parts and sent to the spread sheet to the two dishes provided for economy.
+     - Acts as expected 
+Business class total is taken and printed evenly amongst all the Business class dishes
+     - Acts as expected
+### Special requests
+User is prompted to select if any special requests are required for the flight if yes user is asked to fill in the seat number and the request. The user is then taken back to the begining of the speical requests menu to either fill in another request for the flight or exit special requests with a y/n option.
+     - Acts as expected produces error when incorrect data entered
+### Check Flight meals
+
+On welcome screen user can select to check the meals required for the flight this then asks user to enter in the flight number details, once entered the flight is printed to the terminal with details of all meals and special requests required.
+     - Acts as expected
+### End of application
+User is taken back to welcome screen to choose from the 3 options at this point user can select exit.
+     - Acts as expected
+### Data Validation
+The application validates all data input to ensure correctness occurs, if Incorrect it prompts the user on how to resolve it.
+     - Acts as expected produces error when incorrect data entered
+
+**Known Bugs**
+
+- Form was asking for same input at begining of program twice before proceeding, this was fixed by removing too many loops i had and put in a simple 1,2,3 selection process at the begining of the program.
+- I have to long lines in my code I simply ran out of time to sort this out and I can revisit this is a simple fix.
+- I have a no more lines error not sure how to sort this out as no further code was required below this.
 
 ### Technologies Used 
 
